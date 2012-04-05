@@ -51,7 +51,8 @@
           status = if @color then '\u001b[36mok\u001b[0m' else 'ok'
           @putResult "#{status} #{++@count} - #{spec.getFullName()}#{directive}"
         else
-          @putResult "not ok #{++@count} - #{spec.getFullName()}#{directive}"
+          status = if @color then '\u001b[31mnot ok\u001b[0m' else 'ok'
+          @putResult "#{status} #{++@count} - #{spec.getFullName()}#{directive}"
           for item in items when item.type is 'expect' and !item.passed()
             @putResult "# #{msg}" for msg in item.message.split /\r\n|\r|\n/
 

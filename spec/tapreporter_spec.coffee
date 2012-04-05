@@ -438,5 +438,13 @@ describe 'TAPReporter', ->
       env.execute()
       expect(tapreporter.getResults()[0]).toEqual '\033[33mok\033[0m 1 - # SKIP reason 1'
 
+    it 'should effect failed line', ->
+      env.describe 'test suite', ->
+        env.it 'should be ok', ->
+          @expect(false).toBeTruthy()
+
+      env.execute()
+      expect(tapreporter.getResults()[0]).toEqual '\033[31mnot ok\033[0m 1 - test suite should be ok.'
+
 jasmine.getEnv().addReporter new TAPReporter console.log
 jasmine.getEnv().execute()
