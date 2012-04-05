@@ -45,7 +45,8 @@
         for item in items when item.type is 'log'
           @putResult "# #{msg}" for msg in item.values[0].split /\r\n|\r|\n/
         if results.skipped
-          @putResult "ok #{++@count} - # SKIP #{spec.__skip_reason or ''}"
+          status = if @color then '\u001b[33mok\u001b[0m' else 'ok'
+          @putResult "#{status} #{++@count} - # SKIP #{spec.__skip_reason or ''}"
         else if results.passed()
           status = if @color then '\u001b[36mok\u001b[0m' else 'ok'
           @putResult "#{status} #{++@count} - #{spec.getFullName()}#{directive}"
