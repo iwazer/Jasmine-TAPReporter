@@ -3,7 +3,7 @@
   define [], ->
     class TAPReporter extends jasmine.Reporter
 
-      constructor: (@print) ->
+      constructor: (@print, @color=false) ->
         @results_ = []
         @count = 0
 
@@ -47,7 +47,8 @@
         if results.skipped
           @putResult "ok #{++@count} - # SKIP #{spec.__skip_reason or ''}"
         else if results.passed()
-          @putResult "ok #{++@count} - #{spec.getFullName()}#{directive}"
+          status = if @color then '\u001b[36mok\u001b[0m' else 'ok'
+          @putResult "#{status} #{++@count} - #{spec.getFullName()}#{directive}"
         else
           @putResult "not ok #{++@count} - #{spec.getFullName()}#{directive}"
           for item in items when item.type is 'expect' and !item.passed()
